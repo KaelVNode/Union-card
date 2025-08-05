@@ -1,5 +1,5 @@
 // === Config ===
-const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2dmxxYnR3cWV0bHRkY3Zpb2llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwMjM4MzMsImV4cCI6MjA2OTU5OTgzM30.d-leDFpzc6uxDvq47_FC0Fqh0ztaL11Oozm-z6T9N_M';
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrbnhvbnZpeXZ1dGtqcWV4d2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MTA1NzcsImV4cCI6MjA2OTk4NjU3N30.s1oC5Safj1fMusQc3UOnD2s3tfJMQpLIMTSO9hXCyD0';
 const SUPABASE_URL = 'https://bvvlqbtwqetltdcvioie.supabase.co/rest/v1';
 
 const levelStats = {
