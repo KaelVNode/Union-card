@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Union Stats Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f17;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+    .card {
+      background: #1f1f2e;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+      display: none;
+    }
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .label {
+      font-weight: bold;
+      color: #a9ecfd;
+    }
+    .input {
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      width: 200px;
+    }
+    button {
+      padding: 8px 12px;
+      margin-left: 10px;
+      background-color: #00c2ff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="input">
+    <input type="text" id="username" placeholder="Enter username" />
+    <button onclick="getUser()">Search</button>
+  </div>
+
+  <div id="card" class="card">
+    <img id="avatar" src="" alt="Avatar" />
+    <div><span class="label">Username:</span> <span id="uname"></span></div>
+    <div><span class="label">Level:</span> <span id="level"></span></div>
+    <div><span class="label">Title:</span> <span id="title"></span></div>
+    <div><span class="label">XP:</span> <span id="xp"></span></div>
+    <div><span class="label">Rank:</span> <span id="rank"></span></div>
+  </div>
+
+  <script>
+    const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2dmxxYnR3cWV0bHRkY3Zpb2llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwMjM4MzMsImV4cCI6MjA2OTU5OTgzM30.d-leDFpzc6uxDvq47_FC0Fqh0ztaL11Oozm-z6T9N_M';
+    const SUPABASE_URL = 'https://bvvlqbtwqetltdcvioie.supabase.co/rest/v1';
+
+    async function getUser() {
+      const uname = document.getElementById('username').value.trim();
+      if (!uname) return;
+
+      const res = await fetch(`${SUPABASE_URL}/leaderboard_full_0208?username=ilike.%25${uname}%25`, {
+        headers: {
+          apikey: API_KEY,
+          Authorization: `Bearer ${API_KEY}`
+        }
+      });
+
+      if (!res.ok) {
+        alert("API Error: " + res.status);
+        return;
+      }
+
+      const data = await res.json();
+      const user = data[0];
+      if (!user) {
+        alert("User not found.");
+        return;
+      }
+
+      let json = {};
+      try {
+        json = typeof user.jsonInput === "string" ? JSON.parse(user.jsonInput) : user.jsonInput || {};
+      } catch {}
+
+      const avatar = json.pfp || user.pfp || `https://api.dicebear.com/7.x/fun-emoji/svg?seed=${uname}`;
+
+      document.getElementById('avatar').src = avatar;
+      document.getElementById('uname').textContent = uname;
+      document.getElementById('level').textContent = json.level || user.level || "-";
+      document.getElementById('title').textContent = json.title || user.title || "-";
+      document.getElementById('xp').textContent = json.total_xp || user.total_xp || "-";
+      document.getElementById('rank').textContent = user.rank || "-";
+
+      document.getElementById('card').style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
